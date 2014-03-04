@@ -1550,13 +1550,11 @@ static int decode_cblk(Jpeg2000DecoderContext *s, Jpeg2000CodingStyle *codsty,
             pass_t = 0;
         }
         pass_cnt ++;
-    }
 
-    if (cblk->data + cblk->length - 2*(term_cnt < cblk->nb_terminations) != t1->mqc.bp) {
-        av_log(s->avctx, AV_LOG_WARNING, "End mismatch %"PTRDIFF_SPECIFIER"\n",
-               cblk->data + cblk->length - 2*(term_cnt < cblk->nb_terminations) - t1->mqc.bp);
-    }
+        if ( passno < 5 )
+            break;
 
+    }
     return 0;
 }
 
