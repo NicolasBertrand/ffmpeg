@@ -30,6 +30,7 @@
 #include "libavutil/mem.h"
 #include "jpeg2000dwt.h"
 #include "internal.h"
+#include "libavutil/timer.h"
 
 /* Defines for 9/7 DWT lifting parameters.
  * Parameters are in float. */
@@ -558,7 +559,7 @@ int ff_jpeg2000_dwt_init(DWTContext *s, int border[2][2],
         }
     switch (type) {
     case FF_DWT97:
-        s->f_linebuf = av_malloc_array((maxlen + 12), sizeof(*s->f_linebuf));
+        s->f_linebuf = av_malloc_array(6*(maxlen + 12), sizeof(*s->f_linebuf));
         if (!s->f_linebuf)
             return AVERROR(ENOMEM);
         break;
@@ -575,6 +576,11 @@ int ff_jpeg2000_dwt_init(DWTContext *s, int border[2][2],
     default:
         return -1;
     }
+
+    s->sse = 0;
+    if (ARCH_X86)
+        ff_jpeg2000dwt_init_x86(s, type);
+
     return 0;
 }
 
@@ -601,18 +607,31 @@ int ff_dwt_decode(DWTContext *s, void *t)
     if (s->ndeclevels == 0)
         return 0;
 
-    switch (s->type) {
-    case FF_DWT97:
-        dwt_decode97_float(s, t);
-        break;
-    case FF_DWT97_INT:
-        dwt_decode97_int(s, t);
-        break;
-    case FF_DWT53:
-        dwt_decode53(s, t);
-        break;
-    default:
-        return -1;
+    switch(s->type){
+        case FF_DWT97:
+            if (s->sse)
+            //{
+            //    START_TIMER
+                dwt_decode97_float_sse(s, t);
+            //    STOP_TIMER("dwt_decode97_float_sse");
+            //}
+            else            
+            //{
+            //    START_TIMER
+                dwt_decode97_float(s, t);
+            //    STOP_TIMER("dwt_decode97_float");
+            //}
+            /*{
+                START_TIMER
+                STOP_TIMER("decode_NULL");
+            }*/
+            break;
+        case FF_DWT97_INT:
+            dwt_decode97_int(s, t); break;
+        case FF_DWT53:
+            dwt_decode53(s, t); break;
+        default:
+            return -1;
     }
     return 0;
 }

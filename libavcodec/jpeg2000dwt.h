@@ -48,6 +48,7 @@ typedef struct DWTContext {
     uint8_t type;                        ///< 0 for 9/7; 1 for 5/3
     int32_t *i_linebuf;                  ///< int buffer used by transform
     float   *f_linebuf;                  ///< float buffer used by transform
+    int sse;
 } DWTContext;
 
 /**
@@ -64,5 +65,9 @@ int ff_dwt_encode(DWTContext *s, void *t);
 int ff_dwt_decode(DWTContext *s, void *t);
 
 void ff_dwt_destroy(DWTContext *s);
+
+void dwt_decode97_float_sse(DWTContext *s, float *t);
+
+void ff_jpeg2000dwt_init_x86(DWTContext *s, int type);
 
 #endif /* AVCODEC_JPEG2000DWT_H */
