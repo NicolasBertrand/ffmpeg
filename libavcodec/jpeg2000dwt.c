@@ -558,16 +558,19 @@ int ff_jpeg2000_dwt_init(DWTContext *s, int border[2][2],
         }
     switch (type) {
     case FF_DWT97:
+        dwt_decode = dwt_decode97_float;
         s->f_linebuf = av_malloc_array((maxlen + 12), sizeof(*s->f_linebuf));
         if (!s->f_linebuf)
             return AVERROR(ENOMEM);
         break;
      case FF_DWT97_INT:
+        dwt_decode = dwt_decode97_int;
         s->i_linebuf = av_malloc_array((maxlen + 12), sizeof(*s->i_linebuf));
         if (!s->i_linebuf)
             return AVERROR(ENOMEM);
         break;
     case FF_DWT53:
+        dwt_decode = dwt_decode53;
         s->i_linebuf = av_malloc_array((maxlen +  6), sizeof(*s->i_linebuf));
         if (!s->i_linebuf)
             return AVERROR(ENOMEM);
@@ -575,6 +578,10 @@ int ff_jpeg2000_dwt_init(DWTContext *s, int border[2][2],
     default:
         return -1;
     }
+
+    if (ARCH_X86)
+        ff_jpeg2000dwt_init_x86(s, type);
+
     return 0;
 }
 
@@ -601,19 +608,7 @@ int ff_dwt_decode(DWTContext *s, void *t)
     if (s->ndeclevels == 0)
         return 0;
 
-    switch (s->type) {
-    case FF_DWT97:
-        dwt_decode97_float(s, t);
-        break;
-    case FF_DWT97_INT:
-        dwt_decode97_int(s, t);
-        break;
-    case FF_DWT53:
-        dwt_decode53(s, t);
-        break;
-    default:
-        return -1;
-    }
+    dwt_decode(s,t);
     return 0;
 }
 
