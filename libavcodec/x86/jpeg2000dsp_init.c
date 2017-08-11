@@ -58,7 +58,7 @@ av_cold void ff_jpeg2000dwt_init_x86(DWTContext *s, int type)
     int cpu_flags = av_get_cpu_flags();
     if (EXTERNAL_SSE(cpu_flags)) {
         if (type == FF_DWT97){
-            dwt_decode = dwt_decode97_float_sse;
+            s->sse = 1;
         }
     }
 }
