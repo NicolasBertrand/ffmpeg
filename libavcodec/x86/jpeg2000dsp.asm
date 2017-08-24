@@ -420,25 +420,25 @@ SR1D97FLOAT 6
     mov    %5, %3
     add    %4, 1
     cmp    %5, %4
-    jg .extend
+    jg %%extend
     sub    %4, 2
-    jnz .else
+    jnz %%else
     movss  m0, [%1+4]
     movss  m1, [F_LFTG_K]
     movss  m2, [TWO]
     divss  m1, m2
     mulss  m0, m1
     movss  [%1+4], m0
-    jmp .end
+    jmp %%end
 
-.else:
+%%else:
     movss  m0, [%1]
     movss  m1, [F_LFTG_X]
     mulss  m0, m1
     movss  [%1], m0
-    jmp .end
+    jmp %%end
 
-.extend:
+%%extend:
     shl    %2, 2
     shl    %3, 2
     mov    %4, %2
@@ -458,11 +458,11 @@ SR1D97FLOAT 6
     shr    %5, 1
     add    %5, 8
     cmp    %4, %5
-    jge .beginloop2
-.loop1:
+    jge %%beginloop2
+%%loop1:
     add    %4, 12
     cmp    %4, %5
-    jge .endloop1
+    jge %%endloop1
  
     movups m0, [%1+2*%4-28]
     movups m4, [%1+2*%4-12]
@@ -485,12 +485,12 @@ SR1D97FLOAT 6
 
     add    %4, 4
     cmp    %4, %5
-    jge .beginloop2
-    jmp .loop1
+    jge %%beginloop2
+    jmp %%loop1
   
-.endloop1:
+%%endloop1:
     sub    %4, 12
-.littleloop1:
+%%littleloop1:
     movss  m0, [%1+2*%4]
     movss  m1, [%1+2*%4-4]
     movss  m2, [%1+2*%4+4]
@@ -500,9 +500,9 @@ SR1D97FLOAT 6
     movss  [%1+2*%4], m0
     add    %4, 4
     cmp    %4, %5
-    jl .littleloop1
+    jl %%littleloop1
 
-.beginloop2:
+%%beginloop2:
     movups m3, [F_LFTG_GAMMA]
     mov    %4, %2
     mov    %5, %3
@@ -511,11 +511,11 @@ SR1D97FLOAT 6
     shr    %5, 1
     add    %5, 4
     cmp    %4, %5
-    jge .beginloop3
-.loop2:
+    jge %%beginloop3
+%%loop2:
     add    %4, 12
     cmp    %4, %5
-    jge .endloop2
+    jge %%endloop2
  
     movups m0, [%1+2*%4-24]
     movups m4, [%1+2*%4-8]
@@ -538,12 +538,12 @@ SR1D97FLOAT 6
 
     add    %4, 4
     cmp    %4, %5
-    jge .beginloop3
-    jmp .loop2
+    jge %%beginloop3
+    jmp %%loop2
   
-.endloop2:
+%%endloop2:
     sub    %4, 12
-.littleloop2:
+%%littleloop2:
     movss  m0, [%1+2*%4+4]
     movss  m1, [%1+2*%4]
     movss  m2, [%1+2*%4+8]
@@ -553,9 +553,9 @@ SR1D97FLOAT 6
     movss  [%1+2*%4+4], m0
     add    %4, 4
     cmp    %4, %5
-    jl .littleloop2
+    jl %%littleloop2
 
-.beginloop3:
+%%beginloop3:
     movups m3, [F_LFTG_BETA]
     mov    %4, %2
     mov    %5, %3
@@ -564,11 +564,11 @@ SR1D97FLOAT 6
     shr    %5, 1
     add    %5, 8
     cmp    %4, %5
-    jge .beginloop4
-.loop3:
+    jge %%beginloop4
+%%loop3:
     add    %4, 12
     cmp    %4, %5
-    jge .endloop3
+    jge %%endloop3
 
     movups m0, [%1+2*%4-28]
     movups m4, [%1+2*%4-12]
@@ -591,12 +591,12 @@ SR1D97FLOAT 6
 
     add    %4, 4
     cmp    %4, %5
-    jge .beginloop4
-    jmp .loop3
+    jge %%beginloop4
+    jmp %%loop3
   
-.endloop3:
+%%endloop3:
     sub    %4, 12
-.littleloop3:
+%%littleloop3:
     movss  m0, [%1+2*%4]
     movss  m1, [%1+2*%4-4]
     movss  m2, [%1+2*%4+4]
@@ -606,9 +606,9 @@ SR1D97FLOAT 6
     movss  [%1+2*%4], m0
     add    %4, 4
     cmp    %4, %5
-    jl .littleloop3
+    jl %%littleloop3
 
-.beginloop4:
+%%beginloop4:
     movups m3, [F_LFTG_ALPHA]
     mov    %4, %2
     mov    %5, %3
@@ -617,11 +617,11 @@ SR1D97FLOAT 6
     shr    %5, 1
     add    %5, 4
     cmp    %4, %5
-    jge .end
-.loop4:
+    jge %%end
+%%loop4:
     add    %4, 12
     cmp    %4, %5
-    jge .endloop4
+    jge %%endloop4
  
     movups m0, [%1+2*%4-24]
     movups m4, [%1+2*%4-8]
@@ -644,12 +644,12 @@ SR1D97FLOAT 6
 
     add    %4, 4
     cmp    %4, %5
-    jge .end
-    jmp .loop4
+    jge %%end
+    jmp %%loop4
   
-.endloop4:
+%%endloop4:
     sub    %4, 12
-.littleloop4:
+%%littleloop4:
     movss  m0, [%1+2*%4+4]
     movss  m1, [%1+2*%4]
     movss  m2, [%1+2*%4+8]
@@ -659,9 +659,9 @@ SR1D97FLOAT 6
     movss [%1+2*%4+4], m0
     add    %4, 4
     cmp    %4, %5
-    jl .littleloop4
+    jl %%littleloop4
 
-.end:
+%%end:
     shr    %2, 2
     shr    %3, 2
 %endmacro
@@ -678,7 +678,7 @@ cglobal hor_sd_float, 6, 12, %1, line, data, mh, lh, lv, w, l, lp, i0, i1, j0, j
     shl   lhq, 2
     
     mov   lpq, 0
-.mainloop:
+%%mainloop:
     ;j0 = w*lp+j
     mov   j0q, wq
     imul  j0q, lpq
@@ -704,24 +704,24 @@ cglobal hor_sd_float, 6, 12, %1, line, data, mh, lh, lv, w, l, lp, i0, i1, j0, j
     shl   i0q, 2
  
     cmp   i0q, i1q
-    jg .i1i0
+    jg %%i1i0
 
 ;i0 < i1
     cmp   i1q, lhq
-    jge .i0
+    jge %%i0
     
     add   i0q, 4
     cmp   i0q, i1q
-    jne .inci0
+    jne %%inci0
  
 ;i1 = i0+1
-.beginloopi0i1   
+%%beginloopi0i1   
     sub   i0q, 4
 
-.loopi0i1:
+%%loopi0i1:
     add   i1q, 24
     cmp   i1q, lhq
-    jge .endloopi0i1
+    jge %%endloopi0i1
 
     ;l{i0,i0+2,i0+4,i0+6} <- data[j0:j0+3]
     ;l{i0,i0+3,i0+5,i0+7} = l{i1,i1+2,i1+4,i1+6} <- data[j1:j1+3]
@@ -740,19 +740,19 @@ cglobal hor_sd_float, 6, 12, %1, line, data, mh, lh, lv, w, l, lp, i0, i1, j0, j
     add   j0q, 16
     add   j1q, 16
     cmp   i1q, lhq
-    jl .loopi0i1  
+    jl %%loopi0i1  
     cmp   i0q, lhq
-    jge .sr_1d
+    jge %%sr_1d
 
     ;i1>=lh & i0<lh
     movss m0, [dataq+j0q]
     movss [lq+i0q], m0
-    jmp .sr_1d
+    jmp %%sr_1d
 
 ;i1 + 6 >= lh
-.endloopi0i1:
+%%endloopi0i1:
     sub   i1q, 24
-.littleloopi0i1:
+%%littleloopi0i1:
 
     ;l[i0] <- data[j0]
     ;l[i1] <- data[j1]
@@ -766,32 +766,32 @@ cglobal hor_sd_float, 6, 12, %1, line, data, mh, lh, lv, w, l, lp, i0, i1, j0, j
     add   j0q, 4
     add   j1q, 4
     cmp   i1q, lhq
-    jl .littleloopi0i1
+    jl %%littleloopi0i1
     cmp   i0q, lhq
-    jge .sr_1d
+    jge %%sr_1d
 
     ;i1>=lh & i0<lh
     movss  m0, [dataq+j0q]
     movss  [lq+i0q], m0
-    jmp .sr_1d
+    jmp %%sr_1d
 
 ;i1 < i0
-.i1i0:
+%%i1i0:
     cmp   i0q, lhq
-    jge .i1
+    jge %%i1
     
     add   i1q, 4
     cmp   i0q, i1q
-    jne .inci1
+    jne %%inci1
 
 ;i0 = i1+1
-.beginloopi1i0    
+%%beginloopi1i0    
     sub   i1q, 4
 
-.loopi1i0:
+%%loopi1i0:
     add   i0q, 24
     cmp   i0q, lhq
-    jge .endloopi1i0
+    jge %%endloopi1i0
 
     ;l{i1,i1+2,i1+4,i1+6} <- data[j1:j1+3]
     ;l{i1,i1+3,i1+5,i1+7} = l{i0,i0+2,i0+4,i0+6} <- data[j0:j0+3]
@@ -810,18 +810,18 @@ cglobal hor_sd_float, 6, 12, %1, line, data, mh, lh, lv, w, l, lp, i0, i1, j0, j
     add   j0q, 16
     add   j1q, 16
     cmp   i0q, lhq
-    jl .loopi1i0  
+    jl %%loopi1i0  
     cmp   i1q, lhq
-    jge .sr_1d
+    jge %%sr_1d
 
     ;i0>=lh & i1<lh
     movss  m0, [dataq+j1q]
     movss  [lq+i1q], m0
-    jmp .sr_1d
+    jmp %%sr_1d
 
-.endloopi1i0:
+%%endloopi1i0:
     sub   i1q, 24
-.littleloopi1i0:
+%%littleloopi1i0:
 
     ;l[i0] <- data[j0]
     ;l[i1] <- data[j1]
@@ -835,60 +835,60 @@ cglobal hor_sd_float, 6, 12, %1, line, data, mh, lh, lv, w, l, lp, i0, i1, j0, j
     add   j0q, 4
     add   j1q, 4
     cmp   i1q, lhq
-    jl .littleloopi1i0
+    jl %%littleloopi1i0
     cmp   i0q, lhq
-    jge .sr_1d
+    jge %%sr_1d
 
     ;i0>=lh & i1<lh
     movss  m0, [dataq+j0q]
     movss  [lq+i0q], m0
-    jmp .sr_1d
+    jmp %%sr_1d
 
 ;i0<i1 & i1>=lh
-.i0:
+%%i0:
     cmp   i0q, lhq
-    jge .sr_1d
+    jge %%sr_1d
     movss  m0, [dataq+j0q]
     movss  [lq+i0q], m0
     add   i0q, 8
     add   j0q, 4
-    jmp .i0
+    jmp %%i0
 
 ;i1<i0 & i0>=lh
-.i1:
+%%i1:
     cmp   i1q, lhq
-    jge .sr_1d
+    jge %%sr_1d
     movss  m0, [dataq+j1q]
     movss [lq+i1q], m0
     add   i1q, 8
     add   j1q, 4
-    jmp .i1
+    jmp %%i1
 
 ;i0 < i1-1
-.inci0:
+%%inci0:
     cmp   i0q, lhq
-    jge .sr_1d
+    jge %%sr_1d
     movss  m0, [dataq+j0q]
     movss  [lq+i0q-4], m0
     add   i0q, 8
     add   j0q, 4
     cmp   i0q, i1q
-    je .beginloopi0i1
-    jmp .inci0
+    je %%beginloopi0i1
+    jmp %%inci0
 
 ;i1 < i0-1
-.inci1:
+%%inci1:
     cmp   i1q, lhq
-    jge .sr_1d
+    jge %%sr_1d
     movss  m0, [dataq+j1q]
     movss  [lq+i1q-4], m0
     add   i1q, 8
     add   j1q, 4
     cmp   i0q, i1q
-    je .beginloopi1i0
-    jmp .inci1
+    je %%beginloopi1i0
+    jmp %%inci1
 
-.sr_1d:
+%%sr_1d:
     mov   i0q, mhq
     mov   i1q, lhq
     shr   i1q, 2
@@ -897,14 +897,14 @@ cglobal hor_sd_float, 6, 12, %1, line, data, mh, lh, lv, w, l, lp, i0, i1, j0, j
 
     mov   i0q, 0
     cmp   i0q, lhq
-    jge .endmainloop
+    jge %%endmainloop
     mov   j0q, wq
     imul  j0q, lpq
     shl   j0q, 2
-.subloop3:
+%%subloop3:
     add   i0q, 12
     cmp   i0q, lhq
-    jge .endsubloop3
+    jge %%endsubloop3
 
     movups  m0, [lq+i0q-12]
     movups  [dataq+j0q], m0
@@ -912,27 +912,572 @@ cglobal hor_sd_float, 6, 12, %1, line, data, mh, lh, lv, w, l, lp, i0, i1, j0, j
     add   i0q, 4
     add   j0q, 16
     cmp   i0q, lhq
-    jge .endmainloop
-    jmp .subloop3  
+    jge %%endmainloop
+    jmp %%subloop3  
 
-.endsubloop3:
+%%endsubloop3:
     sub   i0q, 12
-.littlesubloop3:
+%%littlesubloop3:
     movss  m0, [lq+i0q]
     movss  [dataq+j0q], m0
 
     add   i0q, 4
     add   j0q, 4
     cmp   i0q, lhq
-    jl .littlesubloop3  
+    jl %%littlesubloop3  
 
-.endmainloop:
+%%endmainloop:
     add   lpq, 1
     cmp   lpq, lvq
-    jl .mainloop
+    jl %%mainloop
 
     REP_RET
 %endmacro
 
 INIT_XMM sse
 HORSDFLOAT 6
+
+;***********************************************************************
+; ff_ver_sd_float_<opt>(float *line, float *data, int mv, int lv, int lh, int w)
+;***********************************************************************
+%macro VERSDFLOAT 1
+cglobal ver_sd_float, 6, 12, %1, line, data, mv, lh, lv, w, lp, i0, i1, j0, j1, inc
+    shl   mvq, 2
+    add   lineq, mvq
+    mov   incq, lvq
+    add   incq, 16
+    shl   incq, 2
+    shl   lvq, 2
+    shl   wq, 2    
+    
+    mov   lpq, 0
+
+%%mainloop:
+    ;j0 = w*j+lp
+    mov   j0q, lpq
+
+    add   lpq, 3
+    cmp   lpq, lhq
+    jge %%beginmainloop2
+
+    shr   lvq, 2
+    shr   wq, 2
+    ;j1 = w*(lv-mv+1)/2 + j0
+    mov   j1q, lvq
+    sub   j1q, mvq
+    add   j1q, 1
+    shr   j1q, 1
+    imul  j1q, wq
+    add   j1q, j0q
+
+    shl   lvq, 2
+    shl   wq, 2
+    shl   j1q, 2
+    shl   j0q, 2
+
+    ;i1 = 1-mv
+    mov   i1q, 4
+    sub   i1q, mvq
+
+    ;i0 = mv
+    mov   i0q, mvq
+ 
+    cmp   i0q, i1q
+    jg %%i1i0
+
+;i0 < i1
+    cmp   i1q, lvq
+    jge %%i0
+  
+    add   i0q, 4
+    cmp   i0q, i1q
+    jne %%inci0
+ 
+;i1 = i0+1
+%%beginloopi0i1   
+    sub   i0q, 4
+
+%%loopi0i1:
+;    add   i1q, 12
+;    cmp   i1q, lvq
+;    jge %%endloopi0i1
+    
+;    movlps  m0, [dataq+j0q]
+;    movhps  m0, [dataq+j1q]
+;    movlps  m1, [dataq+j0q+8]
+;    movhps  m1, [dataq+j1q+8]
+;    add     j0q, wq
+;    add     j1q, wq
+;    movlps  m2, [dataq+j0q]
+;    movhps  m2, [dataq+j1q]
+;    movlps  m3, [dataq+j0q+8]
+;    movhps  m3, [dataq+j1q+8]
+;    movaps  m4, m0
+;    shufps  m0, m2, q2020
+;    shufps  m4, m2, q3131
+;    movaps  m2, m4
+;    movaps  m4, m1
+;    shufps  m1, m3, q2020
+;    shufps  m4, m3, q3131
+;    movaps  m3, m4
+;    movups  [lineq+i0q], m0
+;    add     lineq, incq
+;    movups  [lineq+i0q], m2
+;    add     lineq, incq
+;    movups  [lineq+i0q], m1
+;    add     lineq, incq
+;    movups  [lineq+i0q], m3
+;    sub     lineq, incq
+;    sub     lineq, incq
+;    sub     lineq, incq
+
+;    add     i1q, 4
+;    add     i0q, 16
+;    add     j0q, wq
+;    add     j1q, wq
+;    cmp     i1q, lvq
+;    jl %%loopi0i1 
+;    cmp     i0q, lvq
+;    jl %%lasti0 
+;    jmp %%sr_1d
+
+;i1 + 3 >= lv
+%%endloopi0i1:
+;    sub     i1q, 12
+%%littleloopi0i1:
+
+    movss   m0, [dataq+j0q]
+    movss   m1, [dataq+j1q]
+    movss   [lineq+i0q], m0
+    movss   [lineq+i0q+4], m1
+    movss   m0, [dataq+j0q+4]
+    movss   m1, [dataq+j1q+4]
+    add     lineq, incq
+    movss   [lineq+i0q], m0
+    movss   [lineq+i0q+4], m1
+    movss   m0, [dataq+j0q+8]
+    movss   m1, [dataq+j1q+8]
+    add     lineq, incq
+    movss   [lineq+i0q], m0
+    movss   [lineq+i0q+4], m1
+    movss   m0, [dataq+j0q+12]
+    movss   m1, [dataq+j1q+12]
+    add     lineq, incq
+    movss   [lineq+i0q], m0
+    movss   [lineq+i0q+4], m1
+    sub     lineq, incq
+    sub     lineq, incq
+    sub     lineq, incq
+
+    add     i1q, 8
+    add     i0q, 8
+    add     j0q, wq
+    add     j1q, wq
+    cmp     i1q, lvq
+    jl %%littleloopi0i1
+    cmp     i0q, lvq
+    jge %%sr_1d
+
+%%lasti0:
+    movss   m0, [dataq+j0q]
+    movss   [lineq+i0q], m0
+    add     lineq, incq
+    movss   m0, [dataq+j0q+4]
+    movss   [lineq+i0q], m0
+    add     lineq, incq
+    movss   m0, [dataq+j0q+8]
+    movss   [lineq+i0q], m0
+    add     lineq, incq
+    movss   m0, [dataq+j0q+12]
+    movss   [lineq+i0q], m0
+    sub     lineq, incq
+    sub     lineq, incq
+    sub     lineq, incq
+    jmp %%sr_1d
+
+;i1 < i0
+%%i1i0:
+    cmp     i0q, lvq
+    jge %%i1
+    
+    add     i1q, 4
+    cmp     i0q, i1q
+    jne %%inci1
+
+;i0 = i1+1
+%%beginloopi1i0    
+    sub     i1q, 4
+
+%%loopi1i0:
+;    add   i0q, 12
+;    cmp   i0q, lvq
+;    jge %%endloopi0i1
+    
+;    movlps  m0, [dataq+j1q]
+;    movhps  m0, [dataq+j0q]
+;    movlps  m1, [dataq+j1q+8]
+;    movhps  m1, [dataq+j0q+8]
+;    add     j0q, wq
+;    add     j1q, wq
+;    movlps  m2, [dataq+j1q]
+;    movhps  m2, [dataq+j0q]
+;    movlps  m3, [dataq+j1q+8]
+;    movhps  m3, [dataq+j0q+8]
+;    movaps  m4, m0
+;    shufps  m0, m2, q2020
+;    shufps  m4, m2, q3131
+;    movaps  m2, m4
+;    movaps  m4, m1
+;    shufps  m1, m3, q2020
+;    shufps  m4, m3, q3131
+;    movaps  m3, m4
+;    movups  [lineq+i1q], m0
+;    add     lineq, incq
+;    movups  [lineq+i1q], m2
+;    add     lineq, incq
+;    movups  [lineq+i1q], m1
+;    add     lineq, incq
+;    movups  [lineq+i1q], m3
+;    sub     lineq, incq
+;    sub     lineq, incq
+;    sub     lineq, incq
+
+;    add     i0q, 4
+;    add     i1q, 16
+;    add     j1q, wq
+;    add     j0q, wq
+;    cmp     i0q, lvq
+;    jl %%loopi1i0 
+;    cmp     i1q, lvq
+;    jl %%lasti1 
+;    jmp %%sr_1d
+
+%%endloopi1i0:
+;    sub     i1q, 12
+%%littleloopi1i0:
+
+    movss   m0, [dataq+j1q]
+    movss   m1, [dataq+j0q]
+    movss   [lineq+i1q], m0
+    movss   [lineq+i1q+4], m1
+    movss   m0, [dataq+j1q+4]
+    movss   m1, [dataq+j0q+4]
+    add     lineq, incq
+    movss   [lineq+i1q], m0
+    movss   [lineq+i1q+4], m1
+    movss   m0, [dataq+j1q+8]
+    movss   m1, [dataq+j0q+8]
+    add     lineq, incq
+    movss   [lineq+i1q], m0
+    movss   [lineq+i1q+4], m1
+    movss   m0, [dataq+j1q+12]
+    movss   m1, [dataq+j0q+12]
+    add     lineq, incq
+    movss   [lineq+i1q], m0
+    movss   [lineq+i1q+4], m1
+    sub     lineq, incq
+    sub     lineq, incq
+    sub     lineq, incq
+
+    add     i1q, 8
+    add     i0q, 8
+    add     j0q, wq
+    add     j1q, wq
+    cmp     i0q, lvq
+    jl %%littleloopi1i0
+    cmp     i1q, lvq
+    jge %%sr_1d
+
+%%lasti1:
+    movss   m0, [dataq+j1q]
+    movss   [lineq+i1q], m0
+    add     lineq, incq
+    movss   m0, [dataq+j1q+4]
+    movss   [lineq+i1q], m0
+    add     lineq, incq
+    movss   m0, [dataq+j1q+8]
+    movss   [lineq+i1q], m0
+    add     lineq, incq
+    movss   m0, [dataq+j1q+12]
+    movss   [lineq+i1q], m0
+    sub     lineq, incq
+    sub     lineq, incq
+    sub     lineq, incq
+    jmp %%sr_1d
+
+;i0<i1 & i1>=lv
+%%i0:
+    cmp     i0q, lvq
+    jge %%sr_1d
+    movss   m0, [dataq+j0q]
+    movss   [lineq+i0q], m0
+    add     lineq, incq
+    movss   m0, [dataq+j0q+4]
+    movss   [lineq+i0q], m0
+    add     lineq, incq
+    movss   m0, [dataq+j0q+8]
+    movss   [lineq+i0q], m0
+    add     lineq, incq
+    movss   m0, [dataq+j0q+12]
+    movss   [lineq+i0q], m0
+    sub     lineq, incq
+    sub     lineq, incq
+    sub     lineq, incq
+    add     i0q, 8
+    add     j0q, wq
+    jmp %%i0
+
+;i1<i0 & i0>=lh
+%%i1:
+    cmp     i1q, lvq
+    jge %%sr_1d
+    movss   m0, [dataq+j1q]
+    movss   [lineq+i1q], m0
+    add     lineq, incq
+    movss   m0, [dataq+j1q+4]
+    movss   [lineq+i1q], m0
+    add     lineq, incq
+    movss   m0, [dataq+j1q+8]
+    movss   [lineq+i1q], m0
+    add     lineq, incq
+    movss   m0, [dataq+j1q+12]
+    movss   [lineq+i1q], m0
+    sub     lineq, incq
+    sub     lineq, incq
+    sub     lineq, incq
+    add     i1q, 8
+    add     j1q, wq
+    jmp %%i1
+
+;i0 < i1-1
+%%inci0:
+    cmp     i0q, lvq
+    jge %%sr_1d
+    movss   m0, [dataq+j0q]
+    movss   [lineq+i0q-4], m0
+    add     lineq, incq
+    movss   m0, [dataq+j0q+4]
+    movss   [lineq+i0q-4], m0
+    add     lineq, incq
+    movss   m0, [dataq+j0q+8]
+    movss   [lineq+i0q-4], m0
+    add     lineq, incq
+    movss   m0, [dataq+j0q+12]
+    movss   [lineq+i0q-4], m0
+    sub     lineq, incq
+    sub     lineq, incq
+    sub     lineq, incq
+    add     i0q, 8
+    add     j0q, wq
+    cmp     i0q, i1q
+    je %%beginloopi0i1
+    jmp %%inci0
+
+;i1 < i0-1
+%%inci1:
+    cmp     i1q, lvq
+    jge %%sr_1d
+    movss   m0, [dataq+j1q]
+    movss   [lineq+i1q-4], m0
+    add     lineq, incq
+    movss   m0, [dataq+j1q+4]
+    movss   [lineq+i1q-4], m0
+    add     lineq, incq
+    movss   m0, [dataq+j1q+8]
+    movss   [lineq+i1q-4], m0
+    add     lineq, incq
+    movss   m0, [dataq+j1q+12]
+    movss   [lineq+i1q-4], m0
+    sub     lineq, incq
+    sub     lineq, incq
+    sub     lineq, incq
+    add     i1q, 8
+    add     j1q, wq
+    cmp     i0q, i1q
+    je %%beginloopi1i0
+    jmp %%inci1
+
+%%sr_1d:
+    sub     lineq, mvq
+    mov     i0q, mvq
+    mov     i1q, lvq
+    add     i1q, mvq
+    shr     i0q, 2
+    shr     i1q, 2
+    SR1D97FLOAT_ lineq, i0q, i1q, j0q, j1q
+    add     lineq, incq
+    mov     i0q, mvq
+    mov     i1q, lvq
+    add     i1q, mvq
+    shr     i0q, 2
+    shr     i1q, 2
+    SR1D97FLOAT_ lineq, i0q, i1q, j0q, j1q
+    add     lineq, incq
+    mov     i0q, mvq
+    mov     i1q, lvq
+    add     i1q, mvq
+    shr     i0q, 2
+    shr     i1q, 2
+    SR1D97FLOAT_ lineq, i0q, i1q, j0q, j1q
+    add     lineq, incq
+    mov     i0q, mvq
+    mov     i1q, lvq
+    add     i1q, mvq
+    shr     i0q, 2
+    shr     i1q, 2
+    SR1D97FLOAT_ lineq, i0q, i1q, j0q, j1q
+    sub     lineq, incq
+    sub     lineq, incq
+    sub     lineq, incq
+    add     lineq, mvq
+
+    mov     i0q, 0
+    ;cmp     i0q, lvq
+    ;jge %%endmainloop
+    mov     j0q, lpq
+    sub     j0q, 3
+    shl     j0q, 2
+%%loop3:
+    add     i0q, 12
+    cmp     i0q, lvq
+    jge %%endloop3
+
+    movups  m0, [lineq+i0q-12]
+    add     lineq, incq
+    movups  m1, [lineq+i0q-12]
+    add     lineq, incq
+    movups  m2, [lineq+i0q-12]
+    add     lineq, incq
+    movups  m3, [lineq+i0q-12]
+    movaps  m4, m0
+    movaps  m5, m2
+    movlhps m0, m1
+    movlhps m2, m3
+    movaps  m6, m0
+    shufps  m0, m2, q2020
+    shufps  m6, m2, q3131
+    movaps  m2, m6
+    movhlps m1, m4
+    movhlps m3, m5
+    movaps  m6, m1
+    shufps  m1, m3, q2020
+    shufps  m6, m3, q3131
+    movaps  m3, m6
+    movups  [dataq+j0q], m0
+    add     j0q, wq
+    movups  [dataq+j0q], m2
+    add     j0q, wq
+    movups  [dataq+j0q], m1
+    add     j0q, wq
+    movups  [dataq+j0q], m3
+    add     j0q, wq
+    sub     lineq, incq
+    sub     lineq, incq
+    sub     lineq, incq
+
+    add     i0q, 4
+    cmp     i0q, lvq
+    jge %%endmainloop
+    jmp %%loop3  
+
+%%endloop3:
+    sub     i0q, 12
+
+%%littleloop3:
+    movss   m0, [lineq+i0q]
+    movss   [dataq+j0q], m0
+    add     lineq, incq
+    movss   m0, [lineq+i0q]
+    movss   [dataq+j0q+4], m0
+    add     lineq, incq
+    movss   m0, [lineq+i0q]
+    movss   [dataq+j0q+8], m0
+    add     lineq, incq
+    movss   m0, [lineq+i0q]
+    movss   [dataq+j0q+12], m0
+    sub     lineq, incq
+    sub     lineq, incq
+    sub     lineq, incq
+
+    add     i0q, 4
+    add     j0q, wq
+    cmp     i0q, lvq
+    jl %%littleloop3  
+
+%%endmainloop:
+    add     lpq, 1
+    cmp     lpq, lhq
+    jl %%mainloop
+    jmp %%end
+
+%%beginmainloop2:
+    sub     lpq, 3
+%%mainloop2:
+    ;j0 = w*j+lp
+    mov   j0q, lpq
+    shl   j0q, 2
+
+    ;i0 = mv
+    mov   i0q, mvq
+ 
+    cmp     i0q, lvq
+    jge %%beginloop5
+%%loop4:
+    movss   m0, [dataq+j0q]
+    movss   [lineq+i0q], m0
+
+    add     j0q, wq
+    add     i0q, 8
+    cmp     i0q, lvq
+    jl      %%loop4
+
+%%beginloop5:
+    ;i0 = 1-mv
+    mov   i0q, 4
+    sub   i0q, mvq
+    cmp     i0q, lvq
+    jge %%sr_1d_2
+%%loop5:
+    movss   m0, [dataq+j0q]
+    movss   [lineq+i0q], m0
+
+    add     j0q, wq
+    add     i0q, 8
+    cmp     i0q, lvq
+    jl      %%loop5
+
+%%sr_1d_2:
+    sub     lineq, mvq
+    mov     i0q, mvq
+    mov     i1q, lvq
+    add     i1q, mvq
+    shr     i1q, 2
+    shr     i0q, 2
+    SR1D97FLOAT_ lineq, i0q, i1q, j0q, j1q
+    add     lineq, mvq
+
+    mov     i0q, 0
+    cmp     i0q, lvq
+    jge %%endmainloop
+    mov     j0q, lpq
+    shl     j0q, 2
+%%loop6:
+    movss   m0, [lineq+i0q]
+    movss   [dataq+j0q], m0
+
+    add     j0q, wq
+    add     i0q, 4
+    cmp     i0q, lvq
+    jl %%loop6 
+
+%%endmainloop2:
+    add   lpq, 1
+    cmp   lpq, lhq
+    jl %%mainloop2
+
+%%end:
+    REP_RET
+%endmacro
+
+INIT_XMM sse
+VERSDFLOAT 6
