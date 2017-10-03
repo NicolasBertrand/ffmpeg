@@ -559,7 +559,7 @@ int ff_jpeg2000_dwt_init(DWTContext *s, int border[2][2],
         }
     switch (type) {
     case FF_DWT97:
-        s->f_linebuf = av_malloc_array(6*(maxlen + 12), sizeof(*s->f_linebuf));
+        s->f_linebuf = av_malloc_array(4*(maxlen + 12), sizeof(*s->f_linebuf));
         if (!s->f_linebuf)
             return AVERROR(ENOMEM);
         break;

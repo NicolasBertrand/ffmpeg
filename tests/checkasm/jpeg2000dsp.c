@@ -20,6 +20,7 @@
 
 #include "checkasm.h"
 #include "libavcodec/jpeg2000dsp.h"
+#include "libavcodec/jpeg2000dwt.h"
 #include "libavutil/common.h"
 #include "libavutil/internal.h"
 #include "libavutil/intreadwrite.h"
