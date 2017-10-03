@@ -945,7 +945,7 @@ cglobal ver_sd_float, 6, 12, %1, line, data, mv, lh, lv, w, lp, i0, i1, j0, j1, 
     shl   mvq, 2
     add   lineq, mvq
     mov   incq, lvq
-    add   incq, 16
+    add   incq, 12
     shl   incq, 2
     shl   lvq, 2
     shl   wq, 2    
